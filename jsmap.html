@@ -174,7 +174,9 @@ icemap.config = {
 }
 
 icemap.places = {
-  atherton: {x: 639, y: 416, text: "City State of Atherton"},
+  atherton: {x: 639, y: 416, text: "City-state of Atherton"},
+  cenedoiss: {x: 960, y: 693, text: "City-state of Cenedoiss"},
+  graemor: {x: 1085, y: 490, text: "City of Graemor"},
   vaerlon: {x: 505, y: 631, text: "City of Vaerlon"}
 }
 
@@ -468,7 +470,7 @@ icemap.go_rpos = function (rx, ry, center, $container) {
   var xr, yr;
 
   center = center || true;
-  $container = $container || $('html,body');
+  $container = $container || $('html,body'); // ff: html, chrome: body
 
   xr = $container.attr("scrollWidth") * rx / icemap.config.map_w;
   yr = $container.attr("scrollHeight") * ry / icemap.config.map_h;
