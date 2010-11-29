@@ -1,0 +1,139 @@
+body {
+  background-color: black;
+  color: #bef;
+  padding: 0;
+  margin: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+#messages {
+  position: fixed;
+  lefT: 20px;
+  bottom: 20px;
+  list-style-type: none;
+  z-index: 1;
+  font-size: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+#messages li {
+  float: left;
+  clear: both;
+  border: 1px solid #666;
+  padding: 2px 5px;
+  background-color: #222;
+  height: 12px;
+}
+
+#charmap {
+  display: block;
+  padding: 0;
+  margin: 0;
+  font-family: 'Courier New', Courier, mono;
+  font-size: 10px;
+}
+a {
+  text-decoration: underline;
+  color: inherit;
+}
+p {
+  padding: 0;
+  margin: 0;
+}
+b {
+  font-weight: normal;
+}
+.mo {
+  color:#333333;
+}
+.e {
+  color:#00ee00;
+}
+.d {
+  color:#00dd00;
+}
+.f {
+  color:#00cc00;
+}
+.w {
+  color:#00FF00;
+}
+.ed {
+  color:#009000;
+}
+.dd {
+  color:#008000;
+}
+.fd {
+  color:#007000;
+}
+.p {
+  color:#ffff80;
+}
+.ga {
+  color:#FFFF00;
+}
+.m {
+  color:#bbff80;
+}
+.md {
+  color:#aadd60;
+}
+.pa {
+  color:#d0d0a0;
+}
+.ro {
+  color:#C0C0C0;
+}
+.cy {
+  color:#bb33bb;
+}
+.z {
+  color:#990099;
+}
+.sp {
+  color:#FF00FF;
+}
+.po {
+  color:#bb44bb;
+}
+.r {
+  color:#0080FF;
+}
+.rd {
+  color:#0070bb;
+}
+.l {
+  color:#006099;
+}
+.a {
+  color:#00FFFF;
+}
+.i {
+  color:#44FFFF;
+}
+.h {
+  color:#a0a000;
+}
+.hh {
+  color:#606000;
+}
+.s {
+  color:#aa0000;
+}
+.sd {
+  color:#880000;
+}
+.v {
+  color:#FF0000;
+}
+.g {
+  color:#FFFFFF;
+}
+.t {
+  color:#61C3A2;
+}
