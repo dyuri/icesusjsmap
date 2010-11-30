@@ -7,6 +7,7 @@ icemap.config = {
   map_w: 800,
   map_h: 600,
   hashcmd: '!',
+  selector: document.location.hash.search('selector') > -1 ? true : false,
   mapimage: null
 }
 
@@ -243,6 +244,8 @@ icemap.draw_charmap = function (x, y, w, h) {
       place = icemap.revplaces[(icemap.config.map_x+i)+'x'+(icemap.config.map_y+j)];
       if (place) {
         ch = '<a href="#!/goto/'+place['place']+'" title="'+place['text']+'">'+ch+'</a>';
+      } else if (icemap.config.selector) {
+        ch = '<a href="#!/pos/'+(x+i)+'/'+(y+j)+'">'+ch+'</a>';
       }
 
       lineArr.push(ch);
@@ -339,8 +342,14 @@ icemap.go_rpos = function (rx, ry, center, $container) {
   $container.animate({ scrollLeft: xr, scrollTop: yr }, 500);
 }
 
+icemap.toggle_selector = function () {
+  icemap.config.selector = !icemap.config.selector;
+}
+
 // needs to be below callable functions
 icemap.cmdmap = {
+  'redraw': icemap.draw_charmap,
+  'selector': icemap.toggle_selector,
   'goto': icemap.go_to,
   'rpos': icemap.go_rpos,
   'pos': icemap.go_pos
