@@ -78,7 +78,11 @@ icemap.charmap = (function (colormap) {
 
 icemap.init = function () {
   icemap.load_map({cb: icemap.parse_hash});
+  
   $(window).bind('hashchange', icemap.parse_hash);
+
+  icemap.build_places_list(icemap.places);
+  $("#places h1").bind("click", icemap.toggle_places);
 }
 
 icemap.Color = (function(){
@@ -128,6 +132,17 @@ icemap.message = function (message, id) {
 
 icemap.clear_messages = function () {
   $("#messages").html("");
+}
+
+icemap.build_places_list = function (places) {
+  var p;
+  for (p in places) if (places.hasOwnProperty(p)) {
+    $('<li><a href="#!/goto/'+p+'" title="'+places[p]['text']+'">'+p+'</a></li>').appendTo("#places ul");
+  }
+}
+
+icemap.toggle_places = function () {
+  $("#places li").toggle("fast");
 }
 
 icemap.parse_hash = function () {
