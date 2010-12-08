@@ -122,12 +122,24 @@ icemap.Color = (function(){
   return Color;
 }())
 
+icemap.log = function (message) {
+  var ts = new Date().getTime(),
+      $console = $("#console");
+
+  if (console && console.log) {
+    console.log("[icemap:"+ts+"] " + message);
+  }
+  if ($console) {
+    $('<li id="log'+ts+'">'+message+'</li>').appendTo($console);
+  }
+}
+
 icemap.message = function (message, id) {
   var ts = new Date().getTime();
 
-  id = id || "ts"+ts;
+  id = id || "msg"+ts;
 
-  console.log("[icemap:"+ts+"] message: " + message);
+  icemap.log("message: " + message);
   $('<li class="hidden" id="'+id+'" />').text(message).appendTo("#messages").show("fast");
 }
 
@@ -169,7 +181,7 @@ icemap.call_cmd = function (cmdstr) {
   }
 
   if (typeof(icemap.cmdmap[cmd]) !== 'undefined') {
-    console.log("[icemap] calling: " + cmd + " parameters: " + cmdArr.join(', '));
+    icemap.log("calling: " + cmd + " parameters: " + cmdArr.join(', '));
     icemap.cmdmap[cmd].apply(this, cmdArr);
   }
 }
