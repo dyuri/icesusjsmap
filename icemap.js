@@ -85,6 +85,17 @@ icemap.CharMap = (function(){
     this.config = config || icemap.config;
   }
 
+  CharMap.prototype.set_container = function (container) {
+    this.container = container;
+    this.$container = $(this.container);
+  }
+
+  CharMap.prototype.maximize = function (pcont) {
+    var w = $(pcont).width() || window.innerWidth,
+        h = $(pcont).height() || window.innerHeight;
+
+    this.$container.width(w).height(h);
+  }
 
   CharMap.prototype.load_map = function (cb) {
     map_src = this.config.map_src;
@@ -313,6 +324,8 @@ icemap.colormap = {
 
 icemap.init = function () {
   icemap.map = new icemap.CharMap();
+  icemap.map.set_container("#map");
+  icemap.map.maximize();
   icemap.map.load_map(icemap.parse_hash);
   
   $(window).bind('hashchange', icemap.parse_hash);

@@ -9,6 +9,10 @@ body {
   display: none;
 }
 
+#map {
+  overflow: auto;
+}
+
 #places,
 #messages {
   position: fixed;
