@@ -244,23 +244,23 @@ icemap.CharMap = (function(){
   }
 
   CharMap.prototype.go_rpos = function (rx, ry, center) {
-    var xr, yr;
+    var xr, yr, $cont = this.$container;
 
     center = center || true;
 
-    xr = this.$container.attr("scrollWidth") * rx / this.config.map_w;
-    yr = this.$container.attr("scrollHeight") * ry / this.config.map_h;
+    xr = $cont.attr("scrollWidth") * rx / this.config.map_w;
+    yr = $cont.attr("scrollHeight") * ry / this.config.map_h;
 
 
     if (center && center !== 'false') {
-      xr = xr - window.innerWidth/2;
-      yr = yr - window.innerHeight/2;
+      xr = xr - $cont.width()/2;
+      yr = yr - $cont.height()/2;
     }
 
     xr = parseInt(xr);
     yr = parseInt(yr);
 
-    this.$container.animate({ scrollLeft: xr, scrollTop: yr }, 500);
+    $cont.animate({ scrollLeft: xr, scrollTop: yr }, 500);
   }
 
   CharMap.prototype.toggle_selector = function () {
