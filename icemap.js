@@ -88,6 +88,8 @@ icemap.CharMap = (function(){
   CharMap.prototype.set_container = function (container) {
     this.container = container;
     this.$container = $(this.container);
+
+    return this;
   }
 
   CharMap.prototype.maximize = function (pcont) {
@@ -95,30 +97,53 @@ icemap.CharMap = (function(){
         h = $(pcont).height() || window.innerHeight;
 
     this.$container.width(w).height(h);
+
+    return this;
   }
 
-  CharMap.prototype.load_map = function (cb) {
+  CharMap.prototype.load_map_image = function (cb) {
     map_src = this.config.map_src;
+
+    if (!map_src) {
+      throw "Cannot load map image - it's not set!";
+    }
+
     this.mapimage = new Image();
-    this.mapimage.src = map_src;
-    this.mapimage.onload = (function (map) { return function() { map.map_loaded.call(map, cb);} })(this);
+    this.mapimage.src = this.config.map_src;
+    this.mapimage.onload = (function (map) { return function() { map.map_image_loaded.call(map, cb);} })(this);
+
+    return this;
   }
 
-  CharMap.prototype.map_loaded = function (cb) {
+  CharMap.prototype.map_image_loaded = function (cb) {
     var m = this.mapimage,
         ctx;
 
-    $(".hidden_map_canvas", this.$container).remove();
-    this.$canvas = $('<canvas class="hidden_map_canvas hidden" width="'+m.width+'" height="'+m.height+'" />').appendTo(this.$container);
+    if (!m) {
+      throw "No map image!";
+    }
 
-    this.ctx = this.$canvas[0].getContext('2d');
+    this.createcanvas(m.width, m.height);
     this.ctx.drawImage(m, 0, 0);
-
     this.draw_charmap();
 
     if (cb) {
       cb.call(this);
     }
+  }
+
+  CharMap.prototype.load_map_from_imagedata = function(imgd) {
+    this.createcanvas(imgd.width, imgd.height);
+    this.ctx.putImageData(imgd, 0, 0);
+    this.draw_charmap();
+
+    return this;
+  }
+
+  CharMap.prototype.createcanvas = function (width, height) {
+    $(".hidden_map_canvas", this.$container).remove();
+    this.$canvas = $('<canvas class="hidden_map_canvas hidden" width="'+width+'" height="'+height+'" />').appendTo(this.$container);
+    this.ctx = this.$canvas[0].getContext('2d');
   }
 
   CharMap.prototype.draw_charmap = function (x, y, w, h) {
@@ -177,6 +202,8 @@ icemap.CharMap = (function(){
     }
 
     icemap.message("map draw time (js): "+(new Date() - startTime)+" ms");
+
+    return this;
   }
 
   CharMap.prototype.get_char_for_color = function (color) {
@@ -225,7 +252,7 @@ icemap.CharMap = (function(){
     return roadchar;
   }
 
-  CharMap.prototype.go_to = function (tag) {
+  CharMap.prototype.go_to = function (tag, speed) {
     var place, i;
 
     for (i = 0; i < this.places.length; i++) {
@@ -235,24 +262,33 @@ icemap.CharMap = (function(){
     }
 
     if (place) {
-      this.go_pos(place.x, place.y);
+      this.go_pos(place.x, place.y, true, speed);
     }
+
+    return this;
   }
 
-  CharMap.prototype.go_pos = function (x, y, center) {
-    this.go_rpos(x-this.config.map_x, y-this.config.map_y, center);
+  CharMap.prototype.go_pos = function (x, y, center, speed) {
+    this.go_rpos(x-this.config.map_x, y-this.config.map_y, center, speed);
+
+    return this;
   }
 
-  CharMap.prototype.go_rpos = function (rx, ry, center) {
+  CharMap.prototype.go_rpos = function (rx, ry, center, speed) {
     var xr, yr, $cont = this.$container;
+    speed = +speed || 500;
 
-    center = center || true;
+    if (typeof(center) === 'undefined') {
+      center = true;
+    } else if (center === 'false') {
+      center = false;
+    }
+
 
     xr = $cont.attr("scrollWidth") * rx / this.config.map_w;
     yr = $cont.attr("scrollHeight") * ry / this.config.map_h;
 
-
-    if (center && center !== 'false') {
+    if (center) {
       xr = xr - $cont.width()/2;
       yr = yr - $cont.height()/2;
     }
@@ -260,11 +296,40 @@ icemap.CharMap = (function(){
     xr = parseInt(xr);
     yr = parseInt(yr);
 
-    $cont.animate({ scrollLeft: xr, scrollTop: yr }, 500);
+    $cont.animate({ scrollLeft: xr, scrollTop: yr }, speed);
+
+    return this;
+  }
+
+  CharMap.prototype.get_pos = function (center) {
+    var ax, ay, rx, ry, 
+        $cont = this.$container,
+        cont = $cont[0];
+    
+    if (typeof(center) === 'undefined') {
+      center = true;
+    } else if (center === 'false') {
+      center = false;
+    }
+
+    x = center ? cont.scrollLeft+$cont.width()/2 : cont.scrollLeft;
+    y = center ? cont.scrollTop+$cont.height()/2 : cont.scrollTop;
+    rx = parseInt(x / cont.scrollWidth * this.config.map_w);
+    ry = parseInt(y / cont.scrollHeight * this.config.map_h);
+
+    return {
+      rel_x: rx,
+      rel_y: ry,
+      abs_x: rx + this.config.map_x,
+      abs_y: ry + this.config.map_y
+    }
+
   }
 
   CharMap.prototype.toggle_selector = function () {
     this.config.selector = !this.config.selector;
+
+    return this;
   }
 
   return CharMap;
@@ -278,15 +343,16 @@ icemap.config = {
   map_w: 800,
   map_h: 600,
   hashcmd: '!',
-  selector: document.location.hash.search('selector') > -1 ? true : false,
-  mapimage: null
+  selector: document.location.hash.search('selector') > -1 ? true : false
 }
 
 icemap.places = [
   new icemap.Place('vaerlon', 505, 631, "City of Vaerlon"),
   new icemap.Place('atherton', 639, 416, "City-State of Atherton"),
   new icemap.Place('cenedoiss', 960, 693, "City-State of Cenedoiss"),
-  new icemap.Place('graemor', 1085, 490, "City of Graemor")
+  new icemap.Place('graemor', 1085, 490, "City of Graemor"),
+  new icemap.Place('mahrakc', 994, 561, "City of Mahrakc"),
+  new icemap.Place('vekkak', 454, 324, "Village of Vekkak")
 ]
 
 icemap.colormap = {
@@ -324,11 +390,16 @@ icemap.colormap = {
 
 icemap.init = function () {
   icemap.map = new icemap.CharMap();
-  icemap.map.set_container("#map");
-  icemap.map.maximize();
-  icemap.map.load_map(icemap.parse_hash);
-  
+  icemap.map.set_container("#map")
+            .maximize()
+            .load_map_image(icemap.parse_hash);
+
   $(window).bind('hashchange', icemap.parse_hash);
+  $(window).resize(function () { 
+    clearTimeout(icemap.resizeTimer_);
+    icemap.resizeTimer_ = setTimeout(function() { icemap.map.maximize(); }, 100);
+  });
+
 
   icemap.build_places_list(icemap.map.places);
   $("#places h1").bind("click", icemap.toggle_places);
