@@ -41,8 +41,11 @@ body {
 
 #places ul {
   list-style-type: none;
-  padding: 0;
+  padding: 0 22px 0 0;
   margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #places li {

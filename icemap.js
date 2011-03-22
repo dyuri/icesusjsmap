@@ -37,11 +37,12 @@ icemap.Color = (function(){
 }())
 
 icemap.Place = (function(){
-  var Place = function (name, x, y, caption) {
+  var Place = function (name, x, y, caption, category) {
     this.name = name;
     this.x = x;
     this.y = y;
     this.caption = caption;
+    this.category = category;
   }
 
   return Place;
@@ -347,12 +348,51 @@ icemap.config = {
 }
 
 icemap.places = [
-  new icemap.Place('vaerlon', 505, 631, "City of Vaerlon"),
-  new icemap.Place('atherton', 639, 416, "City-State of Atherton"),
-  new icemap.Place('cenedoiss', 960, 693, "City-State of Cenedoiss"),
-  new icemap.Place('graemor', 1085, 490, "City of Graemor"),
-  new icemap.Place('mahrakc', 994, 561, "City of Mahrakc"),
-  new icemap.Place('vekkak', 454, 324, "Village of Vekkak")
+  // cities
+  new icemap.Place('vaerlon', 505, 631, "City of Vaerlon", "city"),
+  new icemap.Place('atherton', 639, 416, "City-State of Atherton", "city"),
+  new icemap.Place('cenedoiss', 960, 693, "City-State of Cenedoiss", "city"),
+  new icemap.Place('graemor', 1085, 490, "City of Graemor", "city"),
+  new icemap.Place('mahrakc', 994, 561, "City of Mahrakc", "city"),
+  new icemap.Place('vekkak', 454, 324, "Village of Vekkak", "city"),
+  new icemap.Place('shanty', 460, 608, "Shanty Town", "city"),
+  // altars
+  new icemap.Place('altar_water', 512, 644, "Altar of Water", "altar"),
+  new icemap.Place('altar_earth', 496, 659, "Altar of Earth", "altar"),
+  new icemap.Place('altar_fire', 510, 606, "Altar of Fire", "altar"),
+  new icemap.Place('altar_air', 455, 599, "Altar of Air", "altar"),
+  // areas
+  new icemap.Place('gypsy_camp', 632, 409, "Gypsy Camp", "area"),
+  new icemap.Place('thief_hideout', 623, 421, "Thief Hideout", "area"),
+  new icemap.Place('broken_oak', 577, 443, "Broken Oak Inn", "area"),
+  new icemap.Place('small_cottage', 601, 414, "Small Cottage", "area"),
+  new icemap.Place('goblin_cave', 536, 411, "Small Cottage", "area"),
+  new icemap.Place('isolated_village', 553, 380, "Isolated Village", "area"),
+  new icemap.Place('gnoll_camp', 665, 423, "Gnoll Camp", "area"),
+  new icemap.Place('mandray_forest', 689, 465, "Mandray Forest", "area"),
+  new icemap.Place('temple_of_the_elements', 506, 620, "Temple of the Elements", "area"),
+  new icemap.Place('gales_farm', 514, 620, "Gale's Farm House", "area"),
+  new icemap.Place('pleasant_valley', 533, 613, "Pleasant Valley", "area"),
+  new icemap.Place('tranquil_forest', 544, 633, "Tranquil Forest", "area"),
+  new icemap.Place('drudrics_hut', 524, 633, "Drudric's Hut", "area"),
+  new icemap.Place('rebel_camp', 529, 644, "Rebel Camp", "area"),
+  new icemap.Place('orc_village', 549, 648, "Orc Village", "area"),
+  new icemap.Place('nefankaz', 505, 638, "Nefankaz", "area"),
+  new icemap.Place('nefankaz_harbor', 502, 635, "Nefankaz (harbor)", "area"),
+  new icemap.Place('nefankaz_mountain', 431, 645, "Nefankaz (mountain)", "area"),
+  new icemap.Place('elyrs_farm', 494, 639, "Elyr's Farm", "area"),
+  new icemap.Place('gnomish_trading_post', 488, 635, "Gnomish Trading Post", "area"),
+  new icemap.Place('temple_of_the_dead', 485, 628, "Temple of the Dead", "area"),
+  new icemap.Place('diamond_mines', 486, 650, "Diamond Mines", "area"),
+  new icemap.Place('chromatic_forest', 536, 743, "Chromatic Forest", "area"),
+  new icemap.Place('clash_of_th_hives', 936, 479, "Clash of the Hives", "area"),
+  // guilds
+  new icemap.Place('survivalist_guild', 525, 614, "Survivalist Guild", "guild"),
+  new icemap.Place('loggers_hall', 532, 628, "Logger's Hall", "guild"),
+  new icemap.Place('gae_tree', 620, 442, "Kindred of the Tree", "guild"),
+  new icemap.Place('gae_cat', 581, 383, "Kindred of the Cat", "guild"),
+  new icemap.Place('gae_master', 803, 767, "Master shapeshifters", "guild"),
+  new icemap.Place('hive_cancun', 946, 463, "Cancun hive", "guild")
 ]
 
 icemap.colormap = {
