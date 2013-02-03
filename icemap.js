@@ -386,6 +386,8 @@ icemap.places = [
   new icemap.Place('diamond_mines', 486, 650, "Diamond Mines", "area"),
   new icemap.Place('chromatic_forest', 536, 743, "Chromatic Forest", "area"),
   new icemap.Place('clash_of_th_hives', 936, 479, "Clash of the Hives", "area"),
+  new icemap.Place('tower_of_pegasus', 943, 437, "Tower of Pegasus", "area"),
+  new icemap.Place('sraaks_inn', 925, 436, "Sraak's Inn", "area"),
   // guilds
   new icemap.Place('survivalist_guild', 525, 614, "Survivalist Guild", "guild"),
   new icemap.Place('loggers_hall', 532, 628, "Logger's Hall", "guild"),
